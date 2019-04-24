@@ -5,20 +5,29 @@ require("nodesynth/notes")
 var ns = new NodeSynth.Synth()
 ns.play()
 
+const waves = [
+    "sine",
+    "cosine",
+    "square",
+    "triangle",
+    "sawtooth"
+]
+
+const hz = [
+    ["C4", 261.6],
+    ["D4", 293.7],
+    ["E4", 329.6],
+    ["F4", 349.2],
+    ["A4", 440],
+    ["B4", 493.9]
+]
+
 export const Synth = (pad, vel, count=1) => {
-    
-    const hz = [
-        ["C4", 261.6],
-        ["D4", 293.7],
-        ["E4", 329.6],
-        ["F4", 349.2],
-        ["A4", 440],
-        ["B4", 493.9]
-    ]
 
     const freq = hz[pad][1] * count
+    const wave = waves[0]
 
-    var play = new NodeSynth.Oscillator("sin", freq)
+    var play = new NodeSynth.Oscillator(wave, freq)
 
     ns.source = play
 
