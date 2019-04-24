@@ -24,7 +24,13 @@ const hz = [
 
 export const Synth = (pad, vel, count=1) => {
 
-    const freq = hz[pad][1] * count
+    const norm = vel < 0.5
+        ? 0.5
+        : vel < 0.6
+            ? 1
+            : 2
+            
+    const freq = hz[pad][1] * norm
     const wave = waves[0]
 
     var play = new NodeSynth.Oscillator(wave, freq)
