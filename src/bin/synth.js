@@ -1,40 +1,88 @@
 var NodeSynth = require("nodesynth")
- 
+
 require("nodesynth/notes")
- 
-var ns = new NodeSynth.Synth()
-ns.play()
+
+var synth = new NodeSynth.Synth()
+
+synth.play()
 
 const waves = [
     "sine",
+    "triangle",
     "cosine",
     "square",
-    "triangle",
     "sawtooth"
 ]
 
-const hz = [
-    ["C4", 261.6],
-    ["D4", 293.7],
-    ["E4", 329.6],
-    ["F4", 349.2],
-    ["A4", 440],
-    ["B4", 493.9]
-]
+const hz = {
+    C4: 261.6,
+    D4: 293.7,
+    E4: 329.6,
+    F4: 349.2,
+    A4: 440,
+    B4: 493.9
+}
 
-export const Synth = (pad, vel, count=1) => {
+const presets = {
+    // name: [slope, rate]
+    none: [0, 1],
+    bounce: [500, 50]
+}
 
-    const norm = vel < 0.5
-        ? 0.5
-        : vel < 0.6
-            ? 1
-            : 2
-            
-    const freq = hz[pad][1] * norm
+export const Synth = (pad, vel, count = 1) => {
+
+    let freq, slope, rate
+
+    switch (pad) {
+
+        case "snare":
+            freq = hz.C4;
+            [slope, rate] = presets.bounce
+            break
+        
+        case "snare_rim":
+            break
+
+        case "tom1":
+            freq = hz.B4;
+            [slope, rate] = presets.none
+            break
+
+        case "tom2":
+            freq = hz.A4;
+            [slope, rate] = presets.none
+            break
+
+        case "tom3":
+            freq = hz.F4;
+            [slope, rate] = presets.none
+            break
+
+        case "hh_general":
+        case "hh_pedal":
+        case "hh_open":
+        case "hh_open_crash":
+        case "hh_closed":
+        case "hh_closed_crash":
+        case "crash":
+        case "crash_crash":
+        case "ride":
+        case "ride_crash":
+        case "kick":
+
+        default:
+            return
+            break
+
+    }
+
     const wave = waves[0]
 
-    var play = new NodeSynth.Oscillator(wave, freq)
+    var note = new NodeSynth.Oscillator(wave, (t) => {
+        return freq + t * slope % rate
+    })
 
-    ns.source = play
+    synth.source = note
 
 }
+
