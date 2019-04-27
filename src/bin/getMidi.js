@@ -33,6 +33,9 @@ export default function(){
             count = 1
         }
 
+        console.log(msg)
+        
+
         filterMidi(pad, vel, count)
     })
 

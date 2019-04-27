@@ -29,32 +29,34 @@ const presets = {
     bounce: [500, 50]
 }
 
-export const Synth = (pad, vel, count = 1) => {
+export const Synth = ([, pad], vel, count = 1) => {
 
     let freq, slope, rate
 
     switch (pad) {
 
-        case "snare":
-            freq = hz.C4;
+        case 1:
+            freq = hz.A4;
             [slope, rate] = presets.bounce
             break
         
-        case "snare_rim":
-            break
-
-        case "tom1":
+        case 2:
             freq = hz.B4;
             [slope, rate] = presets.none
             break
 
-        case "tom2":
-            freq = hz.A4;
+        case 3:
+            freq = hz.C4;
             [slope, rate] = presets.none
             break
 
-        case "tom3":
-            freq = hz.F4;
+        case 4:
+            freq = hz.D4;
+            [slope, rate] = presets.none
+            break
+
+        case 5:
+            freq = hz.E4;
             [slope, rate] = presets.none
             break
 
